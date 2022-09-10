@@ -37,7 +37,8 @@ export class StringCalculator {
         }
         else if (input.includes(',')) {
             numbers = input.split(',');
-        } else {
+        }
+        else {
             numbers = input.split('\n');
         }
 
@@ -56,7 +57,7 @@ export class StringCalculator {
         return input.split(regExp)[2].split(seperator!);
     }
 
-    private splitWithCommaAndNewLineTogather(input:string): string[] {
+    private splitWithCommaAndNewLineTogather(input: string): string[] {
         const seperatedByComma = input.split(',');
 
         const numbers: string[] = [];
