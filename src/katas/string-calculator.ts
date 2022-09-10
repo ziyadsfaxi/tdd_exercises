@@ -1,5 +1,5 @@
 export class StringCalculator {
-    
+
     add(input: string): number {
 
         if (input === '') {
@@ -23,37 +23,48 @@ export class StringCalculator {
 
         return sum;
     }
-    
+
     private splitInput(input: string): string[] {
         let numbers: string[] = [];
 
         this.validateInput(input);
 
         if (input.startsWith('//')) {
-            const regExp = RegExp(/\/\/(.*?)\n/)
-            
-            const seperator = input.match(regExp)?.[1];
-
-            if (!seperator) {
-                throw new Error("Unexpected seperator pattern");
-            }
-
-            numbers = input.split(regExp)[2].split(seperator!);
+            numbers = this.splitWithCustomSeperator(input);
         }
         else if (input.includes(',') && input.includes('\n')) {
-            const seperatedByComma = input.split(',');
-
-            for (const sep of seperatedByComma) {
-                const seperatedByNewLine = sep.split('\n');
-                
-                numbers.push(...seperatedByNewLine);
-            }
-
+            numbers = this.splitWithCommaAndNewLineTogather(input);
         }
         else if (input.includes(',')) {
             numbers = input.split(',');
         } else {
             numbers = input.split('\n');
+        }
+
+        return numbers;
+    }
+
+    private splitWithCustomSeperator(input: string): string[] {
+        const regExp = RegExp(/\/\/(.*?)\n/)
+
+        const seperator = input.match(regExp)?.[1];
+
+        if (!seperator) {
+            throw new Error("Unexpected seperator pattern");
+        }
+
+        return input.split(regExp)[2].split(seperator!);
+    }
+
+    private splitWithCommaAndNewLineTogather(input:string): string[] {
+        const seperatedByComma = input.split(',');
+
+        const numbers: string[] = [];
+
+        for (const sep of seperatedByComma) {
+            const seperatedByNewLine = sep.split('\n');
+
+            numbers.push(...seperatedByNewLine);
         }
 
         return numbers;
